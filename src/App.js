@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
 import _ from "lodash";
+import NotFound from "./card/Notfound";
 
 function App() {
   const [searchTxt, setSearchTxt] = useState();
@@ -14,6 +15,10 @@ function App() {
     );
   };
 
+  /**
+   *
+   * @param {*} srcTxt
+   */
   const fetchData = async (srcTxt) => {
     const { data } = await axios.get("/country.json");
 
@@ -59,7 +64,7 @@ function App() {
               )}
 
               {results && results?.length === 0 ? (
-                <p> No record found !</p>
+                <NotFound message="No record found !" />
               ) : (
                 <>
                   {isSelected &&
