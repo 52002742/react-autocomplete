@@ -1,44 +1,17 @@
-import axios from "axios";
-import { useCallback, useState } from "react";
-import _ from "lodash";
+import useDataFetch from "reactjs-search-autocomplete/useDatafetch";
 import NotFound from "./card/Notfound";
 
 function App() {
-  const [searchTxt, setSearchTxt] = useState();
-  const [results, setResults] = useState();
-  const [isShow, setIsShow] = useState();
-  const [isSelected, setIsSelected] = useState(true);
-
-  const filterData = (datarray, query) => {
-    return datarray.filter((country) =>
-      country?.name?.toLowerCase().includes(query?.toLowerCase())
-    );
-  };
-
-  /**
-   *
-   * @param {*} srcTxt
-   */
-  const fetchData = async (srcTxt) => {
-    const { data } = await axios.get("/country.json");
-
-    const filterdData = filterData(data, srcTxt);
-
-    setIsShow(false);
-    setResults(filterdData);
-  };
-
-  const handler = useCallback(_.debounce(fetchData, 500), []);
-
-  const handleSearch = async (e) => {
-    setIsSelected(true);
-    const textval = e.target.value;
-    textval ? setIsShow(true) : setIsShow(false);
-    setSearchTxt(textval);
-
-    handler(textval);
-  };
-
+  const {
+    results,
+    isLoading,
+    searchText,
+    setSearchText,
+    isSelected,
+    setIsSelected,
+    handleSearch,
+    setResults,
+  } = useDataFetch("https://freetestapi.com/api/v1/countries?", "get", 500);
   return (
     <div className="container">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -47,13 +20,15 @@ function App() {
             <input
               className="form-control mr-sm-2"
               type="search"
-              value={searchTxt}
-              onChange={handleSearch}
+              value={searchText}
+              onChange={(e) => {
+                handleSearch(e.target.value);
+              }}
               placeholder="Search"
               aria-label="Search"
             />
             <div className="list-group">
-              {isShow && (
+              {isLoading && (
                 <div className="text-center">
                   <div
                     className="spinner-border spinner-border-sm"
@@ -68,13 +43,17 @@ function App() {
               ) : (
                 <>
                   {isSelected &&
+                    results &&
                     results?.map((result, index) => (
+                      // eslint-disable-next-line jsx-a11y/anchor-is-valid
                       <a
                         key={index}
+                        // eslint-disable-next-line no-script-url
                         href="javascript:void(0)"
                         onClick={() => {
-                          setSearchTxt(result?.name);
+                          setSearchText(result?.name);
                           setIsSelected(false);
+                          setResults("");
                         }}
                         className="list-group-item list-group-item-action list-group-item-light">
                         {result?.name}

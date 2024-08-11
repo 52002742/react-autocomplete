@@ -1,0 +1,27 @@
+{
+  "name": "reactjs-search-autocomplete",
+  "version": "1.0.0",
+  "description": "A Reactjs  autocomplete search with inputtext  with a listbox",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaile/reactjs-search-autocomplete.git"
+  },
+  "keywords": [
+    "react-search-autocomplete",
+    "autocomplete"
+  ],
+  "author": "Shailendra Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shaile/reactjs-search-autocomplete/issues"
+  },
+  "homepage": "https://github.com/shaile/reactjs-search-autocomplete#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "lodash": "^4.17.21"
+  }
+}
